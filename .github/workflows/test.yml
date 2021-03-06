@@ -17,5 +17,5 @@ jobs:
       - uses: saschati/app-php-cli@master
         name: Test
         with:
-          commad: --archive --compress --delete
+          command: composer validate
           dir: src

@@ -14,8 +14,8 @@ jobs:
         name: Clone project repository in github tmp server
 
       # Setup tmp project
-      - uses: saschati/app-php-cli@v1.0.0
+      - uses: saschati/app-php-cli@v1.0.2
         name: Test
         with:
-          command: composer validate && composer update
+          command: composer install && composer validate && composer update
           dir: src

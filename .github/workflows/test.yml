@@ -1,0 +1,21 @@
+name: Run testing
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  run-test:
+    name: Run test my actions
+    runs-on: ubuntu-16.04
+    steps:
+      # Clone git repository to tmp server
+      - uses: actions/checkout@v2
+        name: Clone project repository in github tmp server
+
+      # Setup tmp project
+      - uses: saschati/app-php-cli@master
+        name: Test
+        with:
+          commad: --archive --compress --delete
+          dir: src

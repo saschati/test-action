@@ -1,0 +1,7 @@
+{
+  "name": "saschati/test-action",
+  "description": "Test my github actions",
+  "require": {
+    "monolog/monolog": "1.0.*"
+  }
+}

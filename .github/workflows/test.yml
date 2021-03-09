@@ -20,8 +20,20 @@ jobs:
         # Ignore the failure of a step and avoid terminating the job.
         continue-on-error: true
 
-      - run: docker-compose -f github-ci.yml up --build
+      - run: docker-compose -f github-ci.yml build app-php-cli
+
+#      - name: Get Composer Cache Directory
+#        id: composer-cache
+#        run: |
+#          echo "::set-output name=dir::$(docker-compose -f github-ci.yml run --rm app-php-cli composer config cache-files-dir)"
+#
+#      - uses: actions/cache@v2
+#        with:
+#          path: ${{ steps.composer-cache.outputs.dir }}
+#          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+#          restore-keys: |
+#            ${{ runner.os }}-composer-
 
       - name: Test
         run: |
-          docker-compose -f github-ci.yml run --rm app-php-cli /bin/sh -c "composer install && composer validate"
+          docker-compose -f github-ci.yml run --rm app-php-cli /bin/sh -c "composer install && composer validate && composer config cache-files-dir"

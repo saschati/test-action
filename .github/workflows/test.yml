@@ -23,12 +23,17 @@ jobs:
       - run: docker-compose -f github-ci.yml build app-php-cli
 
       - uses: actions/cache@v2
+        id: composer-cache
         with:
           path: .github/docker/development/php-cli/composer/cache
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
 
+      - name: Install Dependencies
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: docker-compose -f github-ci.yml run --rm app-php-cli /bin/sh -c "composer validate"
+
       - name: Test
         run: |
-          docker-compose -f github-ci.yml run --rm app-php-cli /bin/sh -c "composer install && composer validate && composer config cache-files-dir"
+          docker-compose -f github-ci.yml run --rm app-php-cli /bin/sh -c "composer validate"

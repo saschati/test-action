@@ -22,10 +22,10 @@ jobs:
 
       - run: docker-compose -f github-ci.yml build app-php-cli
 
-#      - name: Get Composer Cache Directory
-#        id: composer-cache
-#        run: |
-#          echo "::set-output name=dir::$(docker-compose -f github-ci.yml run --rm app-php-cli composer config cache-files-dir)"
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(docker-compose -f github-ci.yml run --rm app-php-cli composer config cache-files-dir)"
 #
 #      - uses: actions/cache@v2
 #        with:

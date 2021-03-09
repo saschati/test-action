@@ -37,3 +37,4 @@ jobs:
       - name: Test
         run: |
           docker-compose -f github-ci.yml run --rm app-php-cli /bin/sh -c "composer validate"
+          docker-compose -f github-ci.yml run --rm app-php-cli /bin/sh -c "composer update"

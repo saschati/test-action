@@ -2,6 +2,7 @@
   "name": "saschati/test-action",
   "description": "Test my github actions s",
   "require": {
-    "monolog/monolog": "1.0.*"
+    "monolog/monolog": "1.0.*",
+    "fideloper/proxy": "^4.2"
   }
 }

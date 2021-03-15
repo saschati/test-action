@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+
+  app-php-cli:
+    build:
+      context: .github/docker
+      dockerfile: development/php-cli/Dockerfile
+    container_name: app-php-cli
+    volumes:
+      - ./src:/app
+      - ./.github/docker/development/php-cli/composer/cache:/root/.composer/cache/files

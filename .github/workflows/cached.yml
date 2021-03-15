@@ -1,0 +1,35 @@
+name: Run testing
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  run-test:
+    name: Run test my actions
+    runs-on: ubuntu-16.04
+    steps:
+      # Clone git repository to tmp server
+      - uses: actions/checkout@v2
+        name: Clone project repository in github tmp server
+
+      # In this step, this action saves a list of existing images,
+      # the cache is created without them in the post run.
+      # It also restores the cache if it exists.
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        # Ignore the failure of a step and avoid terminating the job.
+        continue-on-error: true
+
+      - run: docker-compose -f github-ci.yml build app-php-cli
+
+      - uses: actions/cache@v2
+        id: composer-cache
+        with:
+          path: .github/docker/development/php-cli/composer/cache
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install Dependencies
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: docker-compose -f github-ci.yml run --rm app-php-cli /bin/sh -c "composer validate"
